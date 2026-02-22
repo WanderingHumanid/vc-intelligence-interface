@@ -207,15 +207,15 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
             </div>
 
             {/* Main Profile Header */}
-            <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 bg-white p-6 rounded-xl border shadow-sm dark:bg-slate-950 dark:border-slate-800 transition-colors">
+            <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 bg-white p-6 rounded-xl border shadow-sm dark:bg-[#35322D] dark:border-slate-800 transition-colors">
                 <div className="flex flex-col gap-3">
                     <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center border border-blue-100 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800">
+                        <div className="w-12 h-12 bg-teal-50 text-teal-600 rounded-lg flex items-center justify-center border border-teal-100 dark:bg-teal-900/30 dark:text-teal-400 dark:border-teal-800">
                             <Building2 className="w-6 h-6" />
                         </div>
                         <div>
                             <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">{company.name}</h1>
-                            <a href={`https://${company.domain}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline flex items-center gap-1 text-sm mt-1 dark:text-blue-400">
+                            <a href={`https://${company.domain}`} target="_blank" rel="noreferrer" className="text-teal-600 hover:underline flex items-center gap-1 text-sm mt-1 dark:text-teal-400">
                                 {company.domain} <ExternalLink className="w-3 h-3" />
                             </a>
                         </div>
@@ -242,11 +242,11 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
 
                 {/* Main Column: AI Enrichment */}
                 <div className="lg:col-span-2 flex flex-col gap-6">
-                    <Card className="border-slate-200 shadow-sm overflow-hidden dark:bg-slate-950 dark:border-slate-800 transition-colors">
+                    <Card className="border-slate-200 shadow-sm overflow-hidden dark:bg-[#35322D] dark:border-slate-800 transition-colors">
                         <CardHeader className="bg-slate-50/50 border-b pb-4 flex flex-row items-center justify-between space-y-0 relative dark:bg-slate-900/50 dark:border-slate-800">
                             <div>
                                 <CardTitle className="flex items-center gap-2 text-lg text-slate-800 dark:text-slate-50">
-                                    <Sparkles className="w-4 h-4 text-blue-600 dark:text-blue-500" /> Precision AI Scout (Live)
+                                    <Sparkles className="w-4 h-4 text-teal-600 dark:text-teal-500" /> Precision AI Scout (Live)
                                 </CardTitle>
                                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Extracts live signals from the company's real website using Jina AI and Gemini 2.5 Vector Embeddings.</p>
                             </div>
@@ -267,7 +267,7 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
 
                         <div className="bg-slate-50 py-3 px-6 border-b flex justify-end gap-2 dark:bg-slate-900/30 dark:border-slate-800">
                             {status === "idle" && (
-                                <Button id="enrich-btn" onClick={() => handleEnrich()} className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm h-8 relative group">
+                                <Button id="enrich-btn" onClick={() => handleEnrich()} className="bg-teal-600 hover:bg-teal-700 text-white shadow-sm h-8 relative group">
                                     <Sparkles className="w-4 h-4 mr-2" /> Vector Enrich
                                     <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap">
                                         Press 'e'
@@ -275,7 +275,7 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
                                 </Button>
                             )}
                             {status === "loading" && (
-                                <Button disabled className="bg-blue-600/70 text-white cursor-not-allowed w-32 h-8">
+                                <Button disabled className="bg-teal-600/70 text-white cursor-not-allowed w-32 h-8">
                                     <span className="flex items-center gap-2">
                                         <span className="animate-spin w-4 h-4 border-2 border-white/30 border-t-white rounded-full" />
                                         Fetching...
@@ -345,7 +345,7 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
                                             <ul className="space-y-2">
                                                 {company.what_they_do?.map((item: string, i: number) => (
                                                     <li key={i} className="flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
-                                                        <span className="text-blue-600 dark:text-blue-400 mt-1">•</span>
+                                                        <span className="text-teal-600 dark:text-teal-400 mt-1">•</span>
                                                         <span className="leading-snug">{item}</span>
                                                     </li>
                                                 ))}
@@ -374,7 +374,7 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
                                         <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-3 dark:text-slate-200">Vector Keywords</h3>
                                         <div className="flex flex-wrap gap-2">
                                             {company.keywords?.map((kw: string, i: number) => (
-                                                <Badge key={i} variant="secondary" className="bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 font-normal dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800 dark:hover:bg-blue-900/50">
+                                                <Badge key={i} variant="secondary" className="bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 font-normal dark:bg-teal-900/30 dark:text-teal-400 dark:border-teal-800 dark:hover:bg-teal-900/50">
                                                     {kw}
                                                 </Badge>
                                             ))}
@@ -388,7 +388,7 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
 
                     {/* Similar Companies Vector Match */}
                     {similarCompanies.length > 0 && (
-                        <Card className="shadow-sm border-emerald-100 dark:border-emerald-900/50 dark:bg-slate-950 transition-colors">
+                        <Card className="shadow-sm border-emerald-100 dark:border-emerald-900/50 dark:bg-[#35322D] transition-colors">
                             <CardHeader className="bg-emerald-50/50 pb-3 border-b border-emerald-100 dark:bg-emerald-950/20 dark:border-emerald-900/50">
                                 <CardTitle className="text-base text-emerald-800 dark:text-emerald-400 flex items-center gap-2">
                                     <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-500" /> Similar Companies (Vector Match)
@@ -417,7 +417,7 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
 
                 {/* Side Column: Notes & Lists */}
                 <div className="flex flex-col gap-6">
-                    <Card className="shadow-sm dark:bg-slate-950 dark:border-slate-800 transition-colors">
+                    <Card className="shadow-sm dark:bg-[#35322D] dark:border-slate-800 transition-colors">
                         <CardHeader className="pb-3 border-b bg-slate-50/50 dark:bg-slate-900/50 dark:border-slate-800">
                             <CardTitle className="text-base text-slate-800 dark:text-slate-200 flex items-center gap-2">
                                 <Bookmark className="w-4 h-4 text-slate-500 dark:text-slate-400" /> Save to List
@@ -427,7 +427,7 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
                             {lists.length === 0 ? (
                                 <div className="text-sm text-slate-500 bg-slate-50 p-3 rounded-md border text-center dark:bg-slate-900/50 dark:border-slate-800 dark:text-slate-400">
                                     You haven't created any lists yet.
-                                    <Link href="/lists" className="text-blue-600 block mt-1 hover:underline dark:text-blue-400">Go to Lists →</Link>
+                                    <Link href="/lists" className="text-teal-600 block mt-1 hover:underline dark:text-teal-400">Go to Lists →</Link>
                                 </div>
                             ) : (
                                 <div className="flex flex-col gap-2 max-h-[200px] overflow-y-auto pr-1">
@@ -437,7 +437,7 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
                                             <Button
                                                 key={list.id}
                                                 variant={isMember ? "secondary" : "outline"}
-                                                className={`w-full justify-start ${isMember ? 'bg-blue-50 text-blue-700 hover:bg-blue-100 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50 dark:border-blue-800' : 'text-slate-600 dark:text-slate-300 dark:border-slate-700'}`}
+                                                className={`w-full justify-start ${isMember ? 'bg-teal-50 text-teal-700 hover:bg-teal-100 border-teal-200 dark:bg-teal-900/30 dark:text-teal-400 dark:hover:bg-teal-900/50 dark:border-teal-800' : 'text-slate-600 dark:text-slate-300 dark:border-slate-700'}`}
                                                 onClick={() => toggleListMembership(list.id)}
                                             >
                                                 {isMember ? <Bookmark className="w-4 h-4 mr-2 fill-current" /> : <Plus className="w-4 h-4 mr-2" />}
@@ -450,11 +450,11 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
                         </CardContent>
                     </Card>
 
-                    <Card className="shadow-sm flex-1 dark:bg-slate-950 dark:border-slate-800 transition-colors">
+                    <Card className="shadow-sm flex-1 dark:bg-[#35322D] dark:border-slate-800 transition-colors">
                         <CardHeader className="pb-3 border-b bg-slate-50/50 dark:bg-slate-900/50 dark:border-slate-800">
                             <CardTitle className="text-base text-slate-800 flex items-center justify-between dark:text-slate-200">
                                 Review Notes
-                                <Button variant="ghost" size="sm" onClick={saveNote} className="h-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:text-blue-400 dark:hover:text-blue-300 dark:hover:bg-blue-900/30">
+                                <Button variant="ghost" size="sm" onClick={saveNote} className="h-8 text-teal-600 hover:text-teal-700 hover:bg-teal-50 dark:text-teal-400 dark:hover:text-teal-300 dark:hover:bg-teal-900/30">
                                     <Save className="w-4 h-4 mr-1" /> Save Note
                                 </Button>
                             </CardTitle>

@@ -40,6 +40,59 @@ const JSON_SCHEMA: Schema = {
     required: ["summary", "whatTheyDo", "keywords", "signals", "thesisScore", "thesisExplanation"]
 };
 
+// ──────────────────────────────────────────────────────────────
+// Groq Fallback: Structured extraction when Gemini fails
+// ──────────────────────────────────────────────────────────────
+async function extractWithGroq(markdownContent: string, url: string): Promise<any> {
+    const groqKey = process.env.GROQ_API_KEY;
+    if (!groqKey) throw new Error("GROQ_API_KEY not configured for fallback.");
+
+    const groqPrompt = `${SYSTEM_INSTRUCTION}
+
+Extract company intelligence from the following website scrape and return a JSON object with these exact keys:
+- summary (string): A 1-2 sentence description
+- whatTheyDo (string[]): Up to 6 bullet points
+- keywords (string[]): Up to 10 keywords
+- signals (string[]): Up to 4 inferred signals
+- thesisScore (integer 0-100): Alignment with B2B Software/AI VC thesis
+- thesisExplanation (string): 1-2 sentence justification
+
+URL: ${url}
+
+CONTENT:
+${markdownContent.slice(0, 60000)}
+
+Respond ONLY with valid JSON, no markdown fences.`;
+
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${groqKey}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            model: "llama-3.3-70b-versatile",
+            messages: [{ role: "user", content: groqPrompt }],
+            temperature: 0.3,
+            response_format: { type: "json_object" },
+        }),
+    });
+
+    if (!response.ok) {
+        const errBody = await response.text();
+        throw new Error(`Groq API returned ${response.status}: ${errBody}`);
+    }
+
+    const result = await response.json();
+    const text = result.choices?.[0]?.message?.content;
+    if (!text) throw new Error("Empty response from Groq");
+
+    return JSON.parse(text);
+}
+
+// ──────────────────────────────────────────────────────────────
+// Main Enrichment Handler
+// ──────────────────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
@@ -51,7 +104,7 @@ export async function POST(req: NextRequest) {
 
         const supabase = getServiceSupabase();
 
-        // 0. Rate Limiting Check (Stretch Goal: Backoff / Rate Limit)
+        // 0. Rate Limiting Check
         const { data: cData } = await supabase
             .from('companies')
             .select('last_enriched_at')
@@ -63,7 +116,6 @@ export async function POST(req: NextRequest) {
             const now = new Date().getTime();
             const hoursSinceEnrichment = (now - lastEnriched) / (1000 * 60 * 60);
 
-            // Limit to 1 enrichment per hour per company to prevent LLM abuse
             if (hoursSinceEnrichment < 1) {
                 return NextResponse.json({
                     error: "Rate Limit Exceeded: This company was recently enriched. Please wait an hour."
@@ -73,9 +125,7 @@ export async function POST(req: NextRequest) {
 
         // 1. Scrape with Jina AI Reader
         const jinaRes = await fetch(`https://r.jina.ai/${url}`, {
-            headers: {
-                Accept: "text/plain", // Request pure markdown
-            }
+            headers: { Accept: "text/plain" }
         });
 
         if (!jinaRes.ok) {
@@ -91,64 +141,88 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "No content extracted from the URL." }, { status: 404 });
         }
 
-        // 2. Extract structured data with Gemini
+        // 2. Extract structured data — try Gemini first, fallback to Groq
+        let parsedData: any;
+        let usedProvider = "gemini";
+
         const apiKey = process.env.GEMINI_API_KEY;
-        if (!apiKey) {
-            console.error("GEMINI_API_KEY environment variable is not set.");
-            return NextResponse.json(
-                { error: "Server configuration error: Gemini API key missing." },
-                { status: 500 }
-            );
+
+        if (apiKey) {
+            try {
+                const genAI = new GoogleGenerativeAI(apiKey);
+                const model = genAI.getGenerativeModel({
+                    model: "gemini-2.5-flash",
+                    systemInstruction: SYSTEM_INSTRUCTION,
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: JSON_SCHEMA,
+                    },
+                });
+
+                const prompt = `Extract company intelligence from the following website scrape:\n\nURL: ${url}\n\nCONTENT:\n${markdownContent.slice(0, 100000)}`;
+                const result = await model.generateContent(prompt);
+                const textRes = result.response.text();
+                parsedData = JSON.parse(textRes);
+            } catch (geminiError: any) {
+                console.warn("Gemini extraction failed, falling back to Groq:", geminiError.message);
+                try {
+                    parsedData = await extractWithGroq(markdownContent, url);
+                    usedProvider = "groq";
+                } catch (groqError: any) {
+                    console.error("Groq fallback also failed:", groqError.message);
+                    throw new Error(`Both Gemini and Groq failed. Gemini: ${geminiError.message}. Groq: ${groqError.message}`);
+                }
+            }
+        } else {
+            // No Gemini key at all — go straight to Groq
+            try {
+                parsedData = await extractWithGroq(markdownContent, url);
+                usedProvider = "groq";
+            } catch (groqError: any) {
+                throw new Error("No GEMINI_API_KEY set, and Groq fallback failed: " + groqError.message);
+            }
         }
 
-        const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({
-            model: "gemini-2.5-flash",
-            systemInstruction: SYSTEM_INSTRUCTION,
-            generationConfig: {
-                responseMimeType: "application/json",
-                responseSchema: JSON_SCHEMA,
-            },
-        });
-
-        const prompt = `Extract company intelligence from the following website scrape:\n\nURL: ${url}\n\nCONTENT:\n${markdownContent.slice(0, 100000)}`; // Trim to avoid crazy large pages exceeding limits, though Gemini flash handles 1M
-
-        const result = await model.generateContent(prompt);
-        const textRes = result.response.text();
-        const parsedData = JSON.parse(textRes);
-
-        // Provide the required sources array appendage
         const enrichedData = {
             ...parsedData,
-            sources: [
-                {
-                    url: url,
-                    fetchedAt: new Date().toISOString()
-                }
-            ]
+            sources: [{ url: url, fetchedAt: new Date().toISOString(), provider: usedProvider }]
         };
 
-        // 3. Generate Vector Embedding using text-embedding-004
-        const embeddingModel = genAI.getGenerativeModel({ model: "text-embedding-004" });
-        const embeddingText = `${parsedData.summary} ${parsedData.keywords.join(", ")}`;
-        const embeddingResult = await embeddingModel.embedContent(embeddingText);
+        // 3. Generate Vector Embedding using gemini-embedding-001
+        let embedding: number[] | null = null;
 
-        const embedding = embeddingResult.embedding.values;
+        if (apiKey) {
+            try {
+                const genAI = new GoogleGenerativeAI(apiKey);
+                const embeddingModel = genAI.getGenerativeModel({ model: "gemini-embedding-001" });
+                const embeddingText = `${parsedData.summary} ${parsedData.keywords?.join(", ") || ""}`;
+                const embeddingResult = await embeddingModel.embedContent(embeddingText);
+                embedding = embeddingResult.embedding.values;
+            } catch (embeddingError: any) {
+                console.warn("Embedding generation failed (non-fatal):", embeddingError.message);
+                // Continue without embedding — enrichment data is still valuable
+            }
+        }
 
-        // 4. Save securely to Supabase Postgres (Bypassing RLS with Service Role)
+        // 4. Save to Supabase Postgres (Bypassing RLS with Service Role)
+        const updatePayload: any = {
+            enrichment_summary: enrichedData.summary,
+            what_they_do: enrichedData.whatTheyDo,
+            keywords: enrichedData.keywords,
+            signals: enrichedData.signals,
+            sources: enrichedData.sources,
+            thesis_score: enrichedData.thesisScore,
+            thesis_explanation: enrichedData.thesisExplanation,
+            last_enriched_at: new Date().toISOString()
+        };
+
+        if (embedding) {
+            updatePayload.embedding = embedding;
+        }
+
         const { error: dbError } = await supabase
             .from("companies")
-            .update({
-                enrichment_summary: enrichedData.summary,
-                what_they_do: enrichedData.whatTheyDo,
-                keywords: enrichedData.keywords,
-                signals: enrichedData.signals,
-                sources: enrichedData.sources,
-                thesis_score: enrichedData.thesisScore,
-                thesis_explanation: enrichedData.thesisExplanation,
-                embedding: embedding,
-                last_enriched_at: new Date().toISOString()
-            })
+            .update(updatePayload)
             .eq("id", companyId);
 
         if (dbError) {

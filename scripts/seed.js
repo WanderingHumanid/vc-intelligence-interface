@@ -35,7 +35,9 @@ async function seed() {
                     sector: rest.sector,
                     stage: rest.stage,
                     location: rest.location,
-                    description: rest.description
+                    description: rest.description,
+                    founded: rest.founded || null,
+                    headcount: rest.headcount || null
                 },
                 { onConflict: 'domain' }
             );

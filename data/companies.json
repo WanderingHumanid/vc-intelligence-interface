@@ -238,5 +238,245 @@
             "A/B Testing"
         ],
         "headcount": 60
+    },
+    {
+        "id": "17717823150721",
+        "name": "OpenAI",
+        "website": "https://openai.com",
+        "sector": "Artificial Intelligence",
+        "stage": "Post-IPO / Public Equivalent",
+        "location": "San Francisco, CA",
+        "founded": "2015",
+        "description": "AI research and deployment company behind ChatGPT.",
+        "tags": [
+            "LLMs",
+            "Research",
+            "AI"
+        ],
+        "headcount": 1500
+    },
+    {
+        "id": "17717823150722",
+        "name": "Scale AI",
+        "website": "https://scale.com",
+        "sector": "Artificial Intelligence",
+        "stage": "Series F",
+        "location": "San Francisco, CA",
+        "founded": "2016",
+        "description": "Data platform for AI providing high-quality training data for leading machine learning teams.",
+        "tags": [
+            "Data",
+            "Infrastructure",
+            "RLHF"
+        ],
+        "headcount": 700
+    },
+    {
+        "id": "17717823150723",
+        "name": "Hugging Face",
+        "website": "https://huggingface.co",
+        "sector": "Artificial Intelligence",
+        "stage": "Series D",
+        "location": "New York, NY",
+        "founded": "2016",
+        "description": "The AI community building the future. Build, train and deploy state of the art models powered by the reference open source in machine learning.",
+        "tags": [
+            "Open Source",
+            "Platform",
+            "MLOps"
+        ],
+        "headcount": 250
+    },
+    {
+        "id": "17717823150724",
+        "name": "Cohere",
+        "website": "https://cohere.com",
+        "sector": "Artificial Intelligence",
+        "stage": "Series C",
+        "location": "Toronto, Canada",
+        "founded": "2019",
+        "description": "Enterprise AI platform offering foundation models for natural language processing.",
+        "tags": [
+            "LLMs",
+            "Enterprise",
+            "NLP"
+        ],
+        "headcount": 300
+    },
+    {
+        "id": "17717823150725",
+        "name": "Pinecone",
+        "website": "https://pinecone.io",
+        "sector": "Data Infrastructure",
+        "stage": "Series B",
+        "location": "San Francisco, CA",
+        "founded": "2019",
+        "description": "The vector database for building AI applications.",
+        "tags": [
+            "Database",
+            "Vectors",
+            "Infrastructure"
+        ],
+        "headcount": 150
+    },
+    {
+        "id": "17717823150726",
+        "name": "LangChain",
+        "website": "https://langchain.com",
+        "sector": "DevTools",
+        "stage": "Series A",
+        "location": "San Francisco, CA",
+        "founded": "2022",
+        "description": "Framework for developing applications powered by language models.",
+        "tags": [
+            "Framework",
+            "Agents",
+            "Open Source"
+        ],
+        "headcount": 50
+    },
+    {
+        "id": "17717823150727",
+        "name": "Notion",
+        "website": "https://notion.so",
+        "sector": "Productivity",
+        "stage": "Series C",
+        "location": "San Francisco, CA",
+        "founded": "2016",
+        "description": "The connected workspace where better, faster work happens.",
+        "tags": [
+            "Workspace",
+            "Collaboration",
+            "B2B SaaS"
+        ],
+        "headcount": 1000
+    },
+    {
+        "id": "17717823150728",
+        "name": "Airtable",
+        "website": "https://airtable.com",
+        "sector": "Productivity",
+        "stage": "Series F",
+        "location": "San Francisco, CA",
+        "founded": "2013",
+        "description": "Low-code platform for building collaborative apps.",
+        "tags": [
+            "Low-code",
+            "Database",
+            "B2B SaaS"
+        ],
+        "headcount": 1200
+    },
+    {
+        "id": "17717823150729",
+        "name": "Retool",
+        "website": "https://retool.com",
+        "sector": "DevTools",
+        "stage": "Series C",
+        "location": "San Francisco, CA",
+        "founded": "2017",
+        "description": "Build internal tools remarkably fast.",
+        "tags": [
+            "Low-code",
+            "Internal Tools",
+            "B2B SaaS"
+        ],
+        "headcount": 300
+    },
+    {
+        "id": "177178231507210",
+        "name": "Vanta",
+        "website": "https://vanta.com",
+        "sector": "Security",
+        "stage": "Series B",
+        "location": "San Francisco, CA",
+        "founded": "2018",
+        "description": "Automated security and compliance platform.",
+        "tags": [
+            "Compliance",
+            "SOC2",
+            "B2B SaaS"
+        ],
+        "headcount": 400
+    },
+    {
+        "id": "177178231507211",
+        "name": "Rippling",
+        "website": "https://rippling.com",
+        "sector": "HR Tech",
+        "stage": "Series E",
+        "location": "San Francisco, CA",
+        "founded": "2016",
+        "description": "Workforce management platform that unites HR, IT, and Finance.",
+        "tags": [
+            "HRIS",
+            "Payroll",
+            "B2B SaaS"
+        ],
+        "headcount": 2500
+    },
+    {
+        "id": "177178231507212",
+        "name": "Deel",
+        "website": "https://deel.com",
+        "sector": "HR Tech",
+        "stage": "Series D",
+        "location": "San Francisco, CA",
+        "founded": "2018",
+        "description": "Global payroll and compliance platform for remote teams.",
+        "tags": [
+            "Payroll",
+            "Remote Work",
+            "Fintech"
+        ],
+        "headcount": 3000
+    },
+    {
+        "id": "177178231507213",
+        "name": "Ramp",
+        "website": "https://ramp.com",
+        "sector": "Fintech",
+        "stage": "Series D",
+        "location": "New York, NY",
+        "founded": "2019",
+        "description": "Finance automation platform and corporate card designed to save you time and money.",
+        "tags": [
+            "Corporate Cards",
+            "Expense Management",
+            "B2B SaaS"
+        ],
+        "headcount": 450
+    },
+    {
+        "id": "177178231507214",
+        "name": "Databricks",
+        "website": "https://databricks.com",
+        "sector": "Data Infrastructure",
+        "stage": "Series I",
+        "location": "San Francisco, CA",
+        "founded": "2013",
+        "description": "Unified data analytics platform for massive scale data engineering and data science.",
+        "tags": [
+            "Big Data",
+            "Spark",
+            "AI Platform"
+        ],
+        "headcount": 6000
+    },
+    {
+        "id": "177178231507215",
+        "name": "Snowflake",
+        "website": "https://snowflake.com",
+        "sector": "Data Infrastructure",
+        "stage": "Public",
+        "location": "Bozeman, MT",
+        "founded": "2012",
+        "description": "Data cloud company delivering a single data experience that spans multiple clouds and geographies.",
+        "tags": [
+            "Cloud Data Warehouse",
+            "Analytics",
+            "SaaS"
+        ],
+        "headcount": 7000
     }
 ]

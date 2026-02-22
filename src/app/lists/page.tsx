@@ -17,8 +17,6 @@ interface Company {
     sector: string;
     stage: string;
     location: string;
-    founded: string;
-    headcount: number;
 }
 
 interface UserList {
@@ -40,7 +38,7 @@ export default function ListsPage() {
             .select(`
                 id, name, created_at,
                 list_members (
-                    companies (id, name, domain, sector, stage, location, founded, headcount)
+                    companies (id, name, domain, sector, stage, location)
                 )
             `)
             .order('name');
@@ -141,10 +139,10 @@ export default function ListsPage() {
     const handleExportCSV = (list: UserList) => {
         if (list.companies.length === 0) return;
 
-        const headers = ["Name", "Domain", "Sector", "Stage", "Location", "Founded", "Headcount"];
+        const headers = ["Name", "Domain", "Sector", "Stage", "Location"];
         const rows = list.companies.map(c => [
             `"${c.name}"`, `"${c.domain}"`, `"${c.sector}"`, `"${c.stage}"`,
-            `"${c.location}"`, `"${c.founded}"`, c.headcount
+            `"${c.location}"`
         ]);
 
         const csvContent = "data:text/csv;charset=utf-8,"
@@ -182,7 +180,7 @@ export default function ListsPage() {
             </div>
 
             {/* Create List Form */}
-            <Card className="bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 shadow-sm max-w-lg transition-colors">
+            <Card className="bg-white dark:bg-[#35322D] border-slate-200 dark:border-slate-800 shadow-sm max-w-lg transition-colors">
                 <CardContent className="pt-6">
                     <form onSubmit={handleCreateList} className="flex items-end gap-3">
                         <div className="flex-1 space-y-1">
@@ -195,7 +193,7 @@ export default function ListsPage() {
                                 className="dark:bg-slate-900 dark:border-slate-800 dark:text-slate-50 placeholder:dark:text-slate-500"
                             />
                         </div>
-                        <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white">
+                        <Button type="submit" className="bg-teal-600 hover:bg-teal-700 text-white">
                             <Plus className="w-4 h-4 mr-2" /> Create
                         </Button>
                     </form>
@@ -216,10 +214,10 @@ export default function ListsPage() {
                     ) : (
                         lists.map(list => {
                             return (
-                                <Card key={list.id} className="border-slate-200 dark:border-slate-800 dark:bg-slate-950 shadow-sm overflow-hidden transition-colors">
+                                <Card key={list.id} className="border-slate-200 dark:border-slate-800 dark:bg-[#35322D] shadow-sm overflow-hidden transition-colors">
                                     <CardHeader className="bg-slate-50/50 dark:bg-slate-900/50 border-b dark:border-slate-800 pb-4 flex flex-row items-center justify-between space-y-0">
                                         <div className="flex items-center gap-3">
-                                            <Bookmark className="w-5 h-5 text-blue-600 dark:text-blue-500" />
+                                            <Bookmark className="w-5 h-5 text-teal-600 dark:text-teal-500" />
                                             <CardTitle className="text-lg text-slate-900 dark:text-slate-50">{list.name}</CardTitle>
                                             <Badge variant="secondary" className="ml-2 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border dark:border-slate-700 shadow-sm font-normal">
                                                 {list.companies.length} {list.companies.length === 1 ? 'company' : 'companies'}
@@ -274,11 +272,11 @@ export default function ListsPage() {
                                                 {list.companies.map(company => (
                                                     <li key={company.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 hover:bg-slate-50/50 dark:hover:bg-slate-900/50 transition-colors gap-4">
                                                         <div className="flex items-start sm:items-center gap-3">
-                                                            <div className="w-8 h-8 rounded bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
+                                                            <div className="w-8 h-8 rounded bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
                                                                 <Building2 className="w-4 h-4" />
                                                             </div>
                                                             <div className="flex flex-col">
-                                                                <Link href={`/companies/${company.id}`} className="font-semibold text-sm text-slate-900 dark:text-slate-50 hover:text-blue-600 dark:hover:text-blue-400 flex items-center gap-1">
+                                                                <Link href={`/companies/${company.id}`} className="font-semibold text-sm text-slate-900 dark:text-slate-50 hover:text-teal-600 dark:hover:text-teal-400 flex items-center gap-1">
                                                                     {company.name} <ExternalLink className="w-3 h-3 text-slate-400 dark:text-slate-500" />
                                                                 </Link>
                                                                 <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{company.sector} · {company.stage}</span>
