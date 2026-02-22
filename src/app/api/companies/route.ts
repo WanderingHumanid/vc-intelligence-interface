@@ -28,7 +28,6 @@ export async function POST(req: Request) {
         const newCompanyData = {
             name: name || domain,
             domain: domain,
-            website: url.startsWith('http') ? url : `https://${url}`,
             sector: 'Uncategorized',
             stage: 'Unknown',
             location: 'Unknown',
