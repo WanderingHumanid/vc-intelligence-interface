@@ -1,0 +1,242 @@
+[
+    {
+        "id": "1",
+        "name": "Acme AI",
+        "website": "https://stripe.com",
+        "sector": "Fintech",
+        "stage": "Series F",
+        "location": "San Francisco, CA",
+        "founded": "2010",
+        "description": "Financial infrastructure platform for the internet.",
+        "tags": [
+            "Payments",
+            "Infrastructure",
+            "API"
+        ],
+        "headcount": 7000
+    },
+    {
+        "id": "2",
+        "name": "Vercel",
+        "website": "https://vercel.com",
+        "sector": "DevTools",
+        "stage": "Series D",
+        "location": "Remote",
+        "founded": "2015",
+        "description": "Frontend Cloud platform for Next.js and modern web frameworks.",
+        "tags": [
+            "Hosting",
+            "Frontend",
+            "Next.js"
+        ],
+        "headcount": 500
+    },
+    {
+        "id": "3",
+        "name": "Anthropic",
+        "website": "https://anthropic.com",
+        "sector": "Artificial Intelligence",
+        "stage": "Series C",
+        "location": "San Francisco, CA",
+        "founded": "2021",
+        "description": "AI safety and research company that builds helpful, honest, and harmless AI systems.",
+        "tags": [
+            "LLMs",
+            "Research",
+            "Safety"
+        ],
+        "headcount": 300
+    },
+    {
+        "id": "4",
+        "name": "Linear",
+        "website": "https://linear.app",
+        "sector": "Productivity",
+        "stage": "Series B",
+        "location": "San Francisco, CA",
+        "founded": "2019",
+        "description": "Issue tracking tool that teams actually enjoy using.",
+        "tags": [
+            "Management",
+            "B2B SaaS",
+            "Design"
+        ],
+        "headcount": 50
+    },
+    {
+        "id": "5",
+        "name": "Supabase",
+        "website": "https://supabase.com",
+        "sector": "DevTools",
+        "stage": "Series C",
+        "location": "Remote",
+        "founded": "2020",
+        "description": "The open source Firebase alternative.",
+        "tags": [
+            "Database",
+            "BaaS",
+            "Postgres"
+        ],
+        "headcount": 100
+    },
+    {
+        "id": "6",
+        "name": "Plaid",
+        "website": "https://plaid.com",
+        "sector": "Fintech",
+        "stage": "Series D",
+        "location": "San Francisco, CA",
+        "founded": "2013",
+        "description": "Data network that powers the tools that tens of millions of people rely on to live a healthier financial life.",
+        "tags": [
+            "API",
+            "Banking",
+            "Infrastructure"
+        ],
+        "headcount": 1200
+    },
+    {
+        "id": "7",
+        "name": "Figma",
+        "website": "https://figma.com",
+        "sector": "Design Tools",
+        "stage": "Series E",
+        "location": "San Francisco, CA",
+        "founded": "2012",
+        "description": "Collaborative interface design tool.",
+        "tags": [
+            "UI/UX",
+            "Collaboration",
+            "B2B SaaS"
+        ],
+        "headcount": 1000
+    },
+    {
+        "id": "8",
+        "name": "Notion",
+        "website": "https://notion.so",
+        "sector": "Productivity",
+        "stage": "Series C",
+        "location": "San Francisco, CA",
+        "founded": "2016",
+        "description": "The all-in-one workspace for your notes, tasks, wikis, and databases.",
+        "tags": [
+            "Workspace",
+            "Notes",
+            "Collaboration"
+        ],
+        "headcount": 500
+    },
+    {
+        "id": "9",
+        "name": "Docker",
+        "website": "https://docker.com",
+        "sector": "DevTools",
+        "stage": "Series E",
+        "location": "San Francisco, CA",
+        "founded": "2013",
+        "description": "Platform designed to help developers build, share, and run modern applications.",
+        "tags": [
+            "Containers",
+            "Infrastructure",
+            "PaaS"
+        ],
+        "headcount": 800
+    },
+    {
+        "id": "10",
+        "name": "Scale AI",
+        "website": "https://scale.com",
+        "sector": "Artificial Intelligence",
+        "stage": "Series F",
+        "location": "San Francisco, CA",
+        "founded": "2016",
+        "description": "Data platform for AI, providing high-quality training data.",
+        "tags": [
+            "Data Annotation",
+            "Machine Learning",
+            "Enterprise"
+        ],
+        "headcount": 600
+    },
+    {
+        "id": "11",
+        "name": "Retool",
+        "website": "https://retool.com",
+        "sector": "DevTools",
+        "stage": "Series C",
+        "location": "San Francisco, CA",
+        "founded": "2017",
+        "description": "Fast way to build internal tools and applications.",
+        "tags": [
+            "Low-code",
+            "Internal Tools",
+            "B2B SaaS"
+        ],
+        "headcount": 400
+    },
+    {
+        "id": "12",
+        "name": "Deel",
+        "website": "https://deel.com",
+        "sector": "HR Tech",
+        "stage": "Series D",
+        "location": "San Francisco, CA",
+        "founded": "2019",
+        "description": "Global payroll and compliance platform for remote teams.",
+        "tags": [
+            "Payroll",
+            "Remote Work",
+            "Compliance"
+        ],
+        "headcount": 1500
+    },
+    {
+        "id": "13",
+        "name": "Rippling",
+        "website": "https://rippling.com",
+        "sector": "HR Tech",
+        "stage": "Series E",
+        "location": "San Francisco, CA",
+        "founded": "2016",
+        "description": "Workforce management platform unifying HR, IT, and Finance.",
+        "tags": [
+            "HRIS",
+            "IT Management",
+            "Enterprise"
+        ],
+        "headcount": 2000
+    },
+    {
+        "id": "14",
+        "name": "Vanta",
+        "website": "https://vanta.com",
+        "sector": "Cybersecurity",
+        "stage": "Series B",
+        "location": "San Francisco, CA",
+        "founded": "2018",
+        "description": "Automated security and compliance platform.",
+        "tags": [
+            "Compliance",
+            "SOC2",
+            "Security"
+        ],
+        "headcount": 300
+    },
+    {
+        "id": "15",
+        "name": "PostHog",
+        "website": "https://posthog.com",
+        "sector": "Analytics",
+        "stage": "Series B",
+        "location": "San Francisco, CA",
+        "founded": "2020",
+        "description": "Open-source product analytics built for developers.",
+        "tags": [
+            "Product Analytics",
+            "Open Source",
+            "A/B Testing"
+        ],
+        "headcount": 60
+    }
+]

@@ -1,0 +1,154 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { useLocalStorageState } from "@/lib/hooks/useLocalStorage";
+import { Save, Search, Trash2, SlidersHorizontal, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+interface SavedSearch {
+    id: string;
+    name: string;
+    query: string;
+    sector: string;
+    stage: string;
+    createdAt: string;
+}
+
+export default function SavedSearchesPage() {
+    const [savedSearches, setSavedSearches] = useLocalStorageState<SavedSearch[]>("SAVED_SEARCHES", []);
+    const [newName, setNewName] = useState("");
+    const [newQuery, setNewQuery] = useState("");
+    const [newSector, setNewSector] = useState("");
+    const [newStage, setNewStage] = useState("");
+
+    const handleSaveSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!newName.trim() || (!newQuery && !newSector && !newStage)) return;
+
+        const newSearch: SavedSearch = {
+            id: crypto.randomUUID(),
+            name: newName.trim(),
+            query: newQuery.trim(),
+            sector: newSector.trim(),
+            stage: newStage.trim(),
+            createdAt: new Date().toISOString(),
+        };
+
+        setSavedSearches([...savedSearches, newSearch]);
+        setNewName("");
+        setNewQuery("");
+        setNewSector("");
+        setNewStage("");
+    };
+
+    const handleDelete = (id: string) => {
+        setSavedSearches(savedSearches.filter(s => s.id !== id));
+    };
+
+    return (
+        <div className="flex flex-col gap-8 pb-10">
+            <div className="flex flex-col gap-2">
+                <h1 className="text-3xl font-bold tracking-tight text-slate-900">Saved Searches</h1>
+                <p className="text-slate-500">Persist your frequent filtering combinations to find targets faster.</p>
+            </div>
+
+            {/* Manual save form (Ideally triggered from /companies page too) */}
+            <Card className="bg-white border-slate-200 shadow-sm max-w-2xl">
+                <CardHeader className="pb-3 border-b bg-slate-50/50">
+                    <CardTitle className="text-base text-slate-800 flex items-center gap-2">
+                        <Save className="w-4 h-4 text-slate-500" /> Create New Shortcut
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-4 flex flex-col gap-4">
+                    <form onSubmit={handleSaveSearch} className="flex flex-col gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-1">
+                                <label className="text-sm font-medium text-slate-700">Shortcut Name</label>
+                                <Input placeholder="e.g. AI Seed Companies" value={newName} onChange={(e: any) => setNewName(e.target.value)} required />
+                            </div>
+                            <div className="space-y-1">
+                                <label className="text-sm font-medium text-slate-700">Company Keyword</label>
+                                <Input placeholder="e.g. platform" value={newQuery} onChange={(e: any) => setNewQuery(e.target.value)} />
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-1">
+                                <label className="text-sm font-medium text-slate-700">Sector Filter</label>
+                                <Input placeholder="e.g. Artificial Intelligence" value={newSector} onChange={(e: any) => setNewSector(e.target.value)} />
+                            </div>
+                            <div className="space-y-1">
+                                <label className="text-sm font-medium text-slate-700">Stage Filter</label>
+                                <Input placeholder="e.g. Series A" value={newStage} onChange={(e: any) => setNewStage(e.target.value)} />
+                            </div>
+                        </div>
+
+                        <Button type="submit" className="w-fit bg-blue-600 hover:bg-blue-700 text-white mt-2">
+                            Save Search State
+                        </Button>
+                    </form>
+                </CardContent>
+            </Card>
+
+            {/* Display */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {savedSearches.length === 0 ? (
+                    <div className="col-span-full py-16 flex flex-col items-center justify-center text-center border rounded-xl border-dashed bg-slate-50">
+                        <Search className="w-8 h-8 text-slate-300 mb-3" />
+                        <h3 className="text-lg font-medium text-slate-900">No saved searches</h3>
+                        <p className="text-sm text-slate-500 mt-1 max-w-sm">Save specific queries to quickly access targeted segments.</p>
+                    </div>
+                ) : (
+                    savedSearches.map(search => (
+                        <Card key={search.id} className="border-slate-200 shadow-sm flex flex-col group">
+                            <CardHeader className="bg-slate-50/50 border-b pb-3 flex flex-row items-start justify-between space-y-0">
+                                <div className="flex flex-col gap-1">
+                                    <CardTitle className="text-lg text-slate-900 group-hover:text-blue-600 transition-colors">
+                                        {search.name}
+                                    </CardTitle>
+                                    <span className="text-xs text-slate-400 font-mono">
+                                        {new Date(search.createdAt).toLocaleDateString()}
+                                    </span>
+                                </div>
+                                <Button variant="ghost" size="sm" onClick={() => handleDelete(search.id)} className="h-8 text-slate-400 hover:text-red-600 hover:bg-red-50 -mt-1 -mr-2">
+                                    <Trash2 className="w-4 h-4" />
+                                </Button>
+                            </CardHeader>
+                            <CardContent className="p-4 flex flex-col gap-4 flex-1">
+                                <div className="flex flex-wrap gap-2 text-sm text-slate-600">
+                                    {search.query && (
+                                        <div className="flex items-center gap-1.5 bg-slate-100 px-2 py-1 rounded">
+                                            <Search className="w-3.5 h-3.5 text-slate-400" /> {search.query}
+                                        </div>
+                                    )}
+                                    {search.sector && (
+                                        <div className="flex items-center gap-1.5 bg-slate-100 px-2 py-1 rounded">
+                                            <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" /> Sector: {search.sector}
+                                        </div>
+                                    )}
+                                    {search.stage && (
+                                        <div className="flex items-center gap-1.5 bg-slate-100 px-2 py-1 rounded">
+                                            <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" /> Stage: {search.stage}
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="mt-auto pt-2">
+                                    <Link href={`/companies?q=${encodeURIComponent(search.query)}&sector=${encodeURIComponent(search.sector)}&stage=${encodeURIComponent(search.stage)}`}>
+                                        <Button variant="outline" className="w-full text-blue-600 border-blue-200 hover:bg-blue-50">
+                                            Execute Search <ArrowRight className="w-4 h-4 ml-2" />
+                                        </Button>
+                                    </Link>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    ))
+                )}
+            </div>
+        </div>
+    );
+}
