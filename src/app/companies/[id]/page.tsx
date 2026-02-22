@@ -254,8 +254,15 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
                             {/* Thesis Score Badge */}
                             {status === "success" && company.thesis_score && (
                                 <div className="flex flex-col items-end shrink-0">
-                                    <div className="flex items-center gap-2 bg-emerald-50 text-emerald-700 font-bold px-3 py-1 rounded-full border border-emerald-200 text-sm whitespace-nowrap dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800">
-                                        Thesis Match: {company.thesis_score}/100
+                                    <div className="relative group">
+                                        <div className="flex items-center gap-2 bg-emerald-50 text-emerald-700 font-bold px-3 py-1 rounded-full border border-emerald-200 text-sm whitespace-nowrap cursor-help dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800">
+                                            Thesis Match: {company.thesis_score}/100
+                                        </div>
+                                        <div className="absolute top-full right-0 mt-2 w-72 bg-slate-900 text-white text-xs p-3 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none z-50 leading-relaxed">
+                                            <p className="font-semibold mb-1">B2B/AI VC Thesis Alignment</p>
+                                            <p>AI-scored (0–100) based on market fit, scalability, defensibility, growth signals, and timing. Powered by Gemini structured extraction from live website data.</p>
+                                            <p className="mt-1 text-slate-400">90+ Exceptional • 70+ Strong • 50+ Moderate • &lt;50 Weak fit</p>
+                                        </div>
                                     </div>
                                     <p className="text-xs text-slate-400 mt-1 max-w-[220px] text-right leading-tight">
                                         {company.thesis_explanation}
@@ -388,9 +395,9 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
 
                     {/* Similar Companies Vector Match */}
                     {similarCompanies.length > 0 && (
-                        <Card className="shadow-sm border-emerald-100 dark:border-emerald-900/50 dark:bg-[#35322D] transition-colors">
-                            <CardHeader className="bg-emerald-50/50 pb-3 border-b border-emerald-100 dark:bg-emerald-950/20 dark:border-emerald-900/50">
-                                <CardTitle className="text-base text-emerald-800 dark:text-emerald-400 flex items-center gap-2">
+                        <Card className="shadow-sm dark:bg-[#35322D] dark:border-slate-800 transition-colors">
+                            <CardHeader className="pb-3 border-b dark:bg-transparent dark:border-slate-800">
+                                <CardTitle className="text-base text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
                                     <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-500" /> Similar Companies (Vector Match)
                                 </CardTitle>
                             </CardHeader>
@@ -398,7 +405,7 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     {similarCompanies.map(sim => (
                                         <Link href={`/companies/${sim.id}`} key={sim.id}>
-                                            <div className="border border-slate-200 rounded-md p-3 hover:border-emerald-300 hover:bg-emerald-50/30 transition-colors cursor-pointer group dark:border-slate-800 dark:hover:border-emerald-800 dark:hover:bg-emerald-950/20">
+                                            <div className="border border-slate-200 rounded-md p-3 hover:border-emerald-300 hover:bg-emerald-50/30 transition-colors cursor-pointer group dark:border-slate-700 dark:bg-[#2F2D2A] dark:hover:border-emerald-800 dark:hover:bg-emerald-950/20">
                                                 <div className="flex items-center justify-between">
                                                     <h4 className="font-semibold text-slate-800 group-hover:text-emerald-700 dark:text-slate-200 dark:group-hover:text-emerald-400">{sim.name}</h4>
                                                     <span className="text-xs font-mono text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full dark:bg-emerald-900/40 dark:text-emerald-400">

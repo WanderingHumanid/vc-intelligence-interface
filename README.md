@@ -11,7 +11,7 @@ This platform lets you:
 - **Discover** companies from a curated database with advanced, divisive filters
 - **Track any company** by URL — dynamically insert unseen startups into the system
 - **AI Enrich** any profile at the click of a button — scrape the web, extract structured signals, and score against a VC thesis
-- **Find Similar** startups using cosine similarity on 768-dimensional embeddings stored in PostgreSQL
+- **Find Similar** startups using cosine similarity on 3072-dimensional embeddings stored in PostgreSQL
 - **Organize** targets into named lists, export to CSV/JSON, and save search filters as reusable shortcuts
 - **Take analyst notes** per company, saved securely to the cloud
 
@@ -37,7 +37,7 @@ This platform lets you:
 1. **Jina AI Reader** scrapes the company's website to extract raw markdown content
 2. **Google Gemini** receives the markdown and extracts structured fields (summary, signals, keywords, what they do)
 3. **Gemini Thesis Scorer** evaluates the company against a B2B/AI VC thesis, returning a 0–100 score with explanation
-4. **Gemini Embeddings** (`text-embedding-004`) generates a 768-dimensional vector for similarity search
+4. **Gemini Embeddings** (`gemini-embedding-001`) generates a 3072-dimensional vector for similarity search
 5. Everything is persisted to **Supabase PostgreSQL** via the `service_role` key (bypasses RLS securely)
 
 ---
@@ -197,6 +197,47 @@ Toggle between light and dark themes using the button at the bottom of the sideb
 
 ---
 
+## 🎯 Thesis Match Scoring — How It Works
+
+Every enriched company receives a **Thesis Match Score (0–100)** that measures alignment with a top-tier B2B Software/AI VC investment thesis. Here's the methodology:
+
+### Scoring Criteria
+
+The AI evaluates each company across these dimensions:
+
+| Factor | Weight | Description |
+|---|---|---|
+| **Market Fit** | High | Is this a B2B software or AI-first company? |
+| **Scalability** | High | Does the business model have recurring revenue potential (SaaS, platform, API)? |
+| **Defensibility** | Medium | Does the company have proprietary technology, network effects, or data moats? |
+| **Growth Signals** | Medium | Recent funding, hiring, product launches, partnerships, or traction indicators |
+| **Team & Execution** | Low–Medium | Evidence of strong leadership, technical depth, or domain expertise |
+| **Timing & Market Size** | Medium | Is the company addressing a large, growing, or underserved market? |
+
+### Score Ranges
+
+| Range | Meaning |
+|---|---|
+| **90–100** | Exceptional fit — core thesis match, strong signals across all dimensions |
+| **70–89** | Strong fit — clearly in-thesis with minor gaps |
+| **50–69** | Moderate fit — partially aligned or early-stage with potential |
+| **30–49** | Weak fit — tangential to thesis or significant concerns |
+| **0–29** | Poor fit — out of thesis (e.g., B2C, hardware, non-tech) |
+
+### How It's Generated
+
+1. The company's website is scraped and converted to structured markdown via **Jina AI Reader**
+2. **Google Gemini 2.5-flash** processes the content with a system prompt defining a B2B/AI VC thesis
+3. The model returns a structured JSON with the score (0–100) and a 1–2 sentence justification
+4. If Gemini is unavailable, **Groq (Llama 3.3-70b)** processes the same prompt as an automatic fallback
+5. If the website can't be scraped, the AI uses its training knowledge about the company
+
+### Vector Similarity (Find Similar)
+
+After scoring, a **3072-dimensional embedding** is generated via `gemini-embedding-001` and stored in pgvector. The `match_companies` SQL function uses **cosine distance** to find the most similar companies in the database, enabling "Find Similar Companies" discovery.
+
+---
+
 ## 🔑 Key Design Decisions
 
 | Decision | Rationale |
@@ -207,6 +248,7 @@ Toggle between light and dark themes using the button at the bottom of the sideb
 | **Rate limiting via `last_enriched_at`** | 1 enrichment per company per hour prevents API exhaustion |
 | **Upsert on domain** | Ensures idempotent seeding and prevents duplicate entries |
 | **Dynamic company tracking** | Any URL can be added — the system creates a shell, and enrichment fills the details |
+| **Multi-model fallback** | Groq (Llama 3.3-70b) automatically takes over if Gemini fails |
 
 ---
 
