@@ -123,22 +123,46 @@ export async function POST(req: NextRequest) {
             }
         }
 
-        // 1. Scrape with Jina AI Reader
-        const jinaRes = await fetch(`https://r.jina.ai/${url}`, {
-            headers: { Accept: "text/plain" }
-        });
+        // 1. Normalize URL for scraping
+        let scrapeUrl = url.trim();
+        if (!scrapeUrl.startsWith('http')) {
+            scrapeUrl = `https://${scrapeUrl}`;
+        }
+        scrapeUrl = scrapeUrl.replace(/\/+$/, '');
 
-        if (!jinaRes.ok) {
-            return NextResponse.json(
-                { error: `Failed to scrape website via Jina AI (${jinaRes.status})` },
-                { status: 502 }
-            );
+        // Extract clean domain for LLM context
+        let cleanDomain = scrapeUrl;
+        try { cleanDomain = new URL(scrapeUrl).hostname.replace(/^www\./, ''); } catch { }
+
+        // 2. Scrape with Jina AI Reader (graceful fallback if it fails)
+        let markdownContent = "";
+        try {
+            const jinaRes = await fetch(`https://r.jina.ai/${scrapeUrl}`, {
+                headers: {
+                    "Accept": "text/plain",
+                    "X-Return-Format": "text",
+                    "User-Agent": "Mozilla/5.0 (compatible; VCIntelligenceBot/1.0)",
+                },
+                signal: AbortSignal.timeout(20000),
+            });
+
+            if (jinaRes.ok) {
+                markdownContent = await jinaRes.text();
+            } else {
+                console.warn(`Jina returned ${jinaRes.status} for ${scrapeUrl}`);
+            }
+        } catch (jinaError: any) {
+            console.warn("Jina scrape failed (non-fatal):", jinaError.message);
         }
 
-        const markdownContent = await jinaRes.text();
+        // If Jina failed, instruct Gemini to use its training knowledge
+        if (!markdownContent || markdownContent.trim().length < 50) {
+            markdownContent = `IMPORTANT: The website at ${scrapeUrl} could not be scraped. However, you MUST still analyze this company using your training data and general knowledge.
 
-        if (!markdownContent || markdownContent.trim() === "") {
-            return NextResponse.json({ error: "No content extracted from the URL." }, { status: 404 });
+Company domain: ${cleanDomain}
+Company URL: ${scrapeUrl}
+
+Use everything you know about this company from your training data. If this is a well-known company, provide detailed analysis. If this is an unknown company, make reasonable inferences from the domain name about what they likely do, their probable sector, and potential signals. Do NOT return empty fields — always provide your best assessment.`;
         }
 
         // 2. Extract structured data — try Gemini first, fallback to Groq

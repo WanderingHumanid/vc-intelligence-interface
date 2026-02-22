@@ -126,7 +126,7 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
             const response = await fetch("/api/enrich", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ url: company.domain, companyId: company.id }),
+                body: JSON.stringify({ url: `https://${company.domain}`, companyId: company.id }),
             });
 
             if (!response.ok) {
