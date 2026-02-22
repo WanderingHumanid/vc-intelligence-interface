@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI, SchemaType, Schema } from "@google/generative-ai";
+import { getServiceSupabase } from "@/lib/supabase/server";
 
 const SYSTEM_INSTRUCTION = `You are a world-class venture capital analyst. 
 Your goal is to parse a markdown scrape of a startup's website and extract structured data about the company according to the exact JSON schema provided.
@@ -26,18 +27,48 @@ const JSON_SCHEMA: Schema = {
             type: SchemaType.ARRAY,
             items: { type: SchemaType.STRING },
             description: "Up to 4 inferred signals (e.g., 'Hiring aggressively in engineering', 'Targeting enterprise clients', 'Recently pivoted')."
+        },
+        thesisScore: {
+            type: SchemaType.INTEGER,
+            description: "A score from 0-100 indicating how well this company aligns with typical top-tier B2B Software/AI VC investment theses."
+        },
+        thesisExplanation: {
+            type: SchemaType.STRING,
+            description: "A short 1-2 sentence explanation justifying the assigned thesisScore."
         }
     },
-    required: ["summary", "whatTheyDo", "keywords", "signals"]
+    required: ["summary", "whatTheyDo", "keywords", "signals", "thesisScore", "thesisExplanation"]
 };
 
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const { url } = body;
+        const { url, companyId } = body;
 
-        if (!url) {
-            return NextResponse.json({ error: "Missing 'url' parameter" }, { status: 400 });
+        if (!url || !companyId) {
+            return NextResponse.json({ error: "Missing 'url' or 'companyId' parameter" }, { status: 400 });
+        }
+
+        const supabase = getServiceSupabase();
+
+        // 0. Rate Limiting Check (Stretch Goal: Backoff / Rate Limit)
+        const { data: cData } = await supabase
+            .from('companies')
+            .select('last_enriched_at')
+            .eq('id', companyId)
+            .single();
+
+        if (cData && cData.last_enriched_at) {
+            const lastEnriched = new Date(cData.last_enriched_at).getTime();
+            const now = new Date().getTime();
+            const hoursSinceEnrichment = (now - lastEnriched) / (1000 * 60 * 60);
+
+            // Limit to 1 enrichment per hour per company to prevent LLM abuse
+            if (hoursSinceEnrichment < 1) {
+                return NextResponse.json({
+                    error: "Rate Limit Exceeded: This company was recently enriched. Please wait an hour."
+                }, { status: 429 });
+            }
         }
 
         // 1. Scrape with Jina AI Reader
@@ -96,6 +127,34 @@ export async function POST(req: NextRequest) {
                 }
             ]
         };
+
+        // 3. Generate Vector Embedding using text-embedding-004
+        const embeddingModel = genAI.getGenerativeModel({ model: "text-embedding-004" });
+        const embeddingText = `${parsedData.summary} ${parsedData.keywords.join(", ")}`;
+        const embeddingResult = await embeddingModel.embedContent(embeddingText);
+
+        const embedding = embeddingResult.embedding.values;
+
+        // 4. Save securely to Supabase Postgres (Bypassing RLS with Service Role)
+        const { error: dbError } = await supabase
+            .from("companies")
+            .update({
+                enrichment_summary: enrichedData.summary,
+                what_they_do: enrichedData.whatTheyDo,
+                keywords: enrichedData.keywords,
+                signals: enrichedData.signals,
+                sources: enrichedData.sources,
+                thesis_score: enrichedData.thesisScore,
+                thesis_explanation: enrichedData.thesisExplanation,
+                embedding: embedding,
+                last_enriched_at: new Date().toISOString()
+            })
+            .eq("id", companyId);
+
+        if (dbError) {
+            console.error("Supabase Save Error:", dbError);
+            return NextResponse.json({ error: "Failed to save enrichment to database: " + dbError.message }, { status: 500 });
+        }
 
         return NextResponse.json(enrichedData);
 

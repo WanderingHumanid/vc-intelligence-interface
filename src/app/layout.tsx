@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Outfit } from 'next/font/google';
 import './globals.css';
-import { Sidebar } from '@/components/Sidebar';
-import { Toaster } from '@/components/ui/sonner';
+import { Sidebar } from "@/components/Sidebar";
+import { Toaster } from "sonner";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
-const inter = Inter({ subsets: ['latin'] });
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
 
 export const metadata: Metadata = {
   title: 'VC Intelligence Interface',
@@ -18,14 +19,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="antialiased">
-      <body className={`${inter.className} flex bg-white text-slate-900 min-h-screen selection:bg-blue-100 selection:text-blue-900`}>
-        <Sidebar />
-        <main className="flex-1 ml-64 min-h-screen">
-          <div className="max-w-6xl mx-auto w-full p-8">
-            {children}
+      <body className={`${outfit.variable} font-sans antialiased text-slate-900 bg-white dark:bg-slate-950 dark:text-slate-50`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <div className="flex min-h-screen">
+            <Sidebar />
+            <main className="flex-1 lg:pl-64">
+              <div className="max-w-6xl mx-auto p-4 md:p-8">
+                {children}
+              </div>
+            </main>
           </div>
-        </main>
-        <Toaster />
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
