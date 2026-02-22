@@ -304,7 +304,7 @@ export default function CompaniesPage() {
 
                         {/* Advanced Filters Panel */}
                         {showAdvancedFilters && (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 rounded-xl border dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 transition-all">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 rounded-xl border dark:border-slate-800 bg-slate-50/50 dark:bg-transparent transition-all">
                                 {/* Location Filter */}
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Location</label>
@@ -360,7 +360,7 @@ export default function CompaniesPage() {
                     <div className="rounded-xl border dark:border-slate-800 bg-white dark:bg-[#35322D] shadow-sm overflow-hidden transition-colors">
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm text-left">
-                                <thead className="bg-slate-50 dark:bg-slate-900/50 border-b dark:border-slate-800 text-slate-500 dark:text-slate-400 font-medium">
+                                <thead className="bg-slate-50 dark:bg-transparent border-b dark:border-slate-800 text-slate-500 dark:text-slate-400 font-medium">
                                     <tr>
                                         <th className="px-6 py-4 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" onClick={() => requestSort('name')}>
                                             <div className="flex items-center gap-2">Company {getSortIcon('name')}</div>
@@ -419,7 +419,7 @@ export default function CompaniesPage() {
 
                         {/* Pagination Footer */}
                         {totalPages > 0 && (
-                            <div className="flex items-center justify-between px-6 py-3 border-t dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 text-sm text-slate-500 dark:text-slate-400 transition-colors">
+                            <div className="flex items-center justify-between px-6 py-3 border-t dark:border-slate-800 bg-slate-50 dark:bg-transparent text-sm text-slate-500 dark:text-slate-400 transition-colors">
                                 <div>
                                     Showing <span className="font-medium text-slate-900 dark:text-slate-50">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium text-slate-900 dark:text-slate-50">{Math.min(currentPage * itemsPerPage, filteredData.length)}</span> of <span className="font-medium text-slate-900 dark:text-slate-50">{filteredData.length}</span> results
                                 </div>

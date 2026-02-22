@@ -243,7 +243,7 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
                 {/* Main Column: AI Enrichment */}
                 <div className="lg:col-span-2 flex flex-col gap-6">
                     <Card className="border-slate-200 shadow-sm overflow-hidden dark:bg-[#35322D] dark:border-slate-800 transition-colors">
-                        <CardHeader className="bg-slate-50/50 border-b pb-4 flex flex-row items-center justify-between space-y-0 relative dark:bg-slate-900/50 dark:border-slate-800">
+                        <CardHeader className="bg-slate-50/50 border-b pb-4 flex flex-row items-center justify-between space-y-0 relative dark:bg-transparent dark:border-slate-800">
                             <div>
                                 <CardTitle className="flex items-center gap-2 text-lg text-slate-800 dark:text-slate-50">
                                     <Sparkles className="w-4 h-4 text-teal-600 dark:text-teal-500" /> Precision AI Scout (Live)
@@ -329,7 +329,7 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
                                     )}
 
                                     {/* Summary */}
-                                    <div className="bg-slate-50 border border-slate-100 p-4 rounded-lg dark:bg-slate-900/50 dark:border-slate-800">
+                                    <div className="bg-slate-50 border border-slate-100 p-4 rounded-lg dark:bg-transparent dark:border-slate-800">
                                         <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-2 dark:text-slate-200">Executive Summary</h3>
                                         <p className="text-slate-700 leading-relaxed text-sm dark:text-slate-300">
                                             {company.enrichment_summary}
@@ -418,14 +418,14 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
                 {/* Side Column: Notes & Lists */}
                 <div className="flex flex-col gap-6">
                     <Card className="shadow-sm dark:bg-[#35322D] dark:border-slate-800 transition-colors">
-                        <CardHeader className="pb-3 border-b bg-slate-50/50 dark:bg-slate-900/50 dark:border-slate-800">
+                        <CardHeader className="pb-3 border-b bg-slate-50/50 dark:bg-transparent dark:border-slate-800">
                             <CardTitle className="text-base text-slate-800 dark:text-slate-200 flex items-center gap-2">
                                 <Bookmark className="w-4 h-4 text-slate-500 dark:text-slate-400" /> Save to List
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="pt-4 flex flex-col gap-3">
                             {lists.length === 0 ? (
-                                <div className="text-sm text-slate-500 bg-slate-50 p-3 rounded-md border text-center dark:bg-slate-900/50 dark:border-slate-800 dark:text-slate-400">
+                                <div className="text-sm text-slate-500 bg-slate-50 p-3 rounded-md border text-center dark:bg-transparent dark:border-slate-800 dark:text-slate-400">
                                     You haven't created any lists yet.
                                     <Link href="/lists" className="text-teal-600 block mt-1 hover:underline dark:text-teal-400">Go to Lists →</Link>
                                 </div>
@@ -451,7 +451,7 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
                     </Card>
 
                     <Card className="shadow-sm flex-1 dark:bg-[#35322D] dark:border-slate-800 transition-colors">
-                        <CardHeader className="pb-3 border-b bg-slate-50/50 dark:bg-slate-900/50 dark:border-slate-800">
+                        <CardHeader className="pb-3 border-b bg-slate-50/50 dark:bg-transparent dark:border-slate-800">
                             <CardTitle className="text-base text-slate-800 flex items-center justify-between dark:text-slate-200">
                                 Review Notes
                                 <Button variant="ghost" size="sm" onClick={saveNote} className="h-8 text-teal-600 hover:text-teal-700 hover:bg-teal-50 dark:text-teal-400 dark:hover:text-teal-300 dark:hover:bg-teal-900/30">

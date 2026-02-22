@@ -206,7 +206,7 @@ export default function ListsPage() {
             ) : (
                 <div className="flex flex-col gap-6">
                     {lists.length === 0 ? (
-                        <div className="py-16 flex flex-col items-center justify-center text-center border dark:border-slate-800 rounded-xl border-dashed bg-slate-50 dark:bg-slate-900/50">
+                        <div className="py-16 flex flex-col items-center justify-center text-center border dark:border-slate-800 rounded-xl border-dashed bg-slate-50 dark:bg-transparent">
                             <Bookmark className="w-8 h-8 text-slate-300 dark:text-slate-600 mb-3" />
                             <h3 className="text-lg font-medium text-slate-900 dark:text-slate-50">No lists yet</h3>
                             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-sm">Create a list above, then add companies to it from their profile pages.</p>
@@ -215,7 +215,7 @@ export default function ListsPage() {
                         lists.map(list => {
                             return (
                                 <Card key={list.id} className="border-slate-200 dark:border-slate-800 dark:bg-[#35322D] shadow-sm overflow-hidden transition-colors">
-                                    <CardHeader className="bg-slate-50/50 dark:bg-slate-900/50 border-b dark:border-slate-800 pb-4 flex flex-row items-center justify-between space-y-0">
+                                    <CardHeader className="bg-slate-50/50 dark:bg-transparent border-b dark:border-slate-800 pb-4 flex flex-row items-center justify-between space-y-0">
                                         <div className="flex items-center gap-3">
                                             <Bookmark className="w-5 h-5 text-teal-600 dark:text-teal-500" />
                                             <CardTitle className="text-lg text-slate-900 dark:text-slate-50">{list.name}</CardTitle>

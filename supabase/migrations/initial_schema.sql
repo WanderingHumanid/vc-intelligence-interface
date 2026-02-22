@@ -19,7 +19,7 @@ create table if not exists public.companies (
   sources jsonb, -- Array of objects
   thesis_score integer check (thesis_score >= 0 and thesis_score <= 100),
   thesis_explanation text,
-  embedding vector(768), -- Gemini text-embedding-004 is 768 dimensions
+  embedding vector(3072), -- Gemini text-embedding-004 is 768 dimensions
   last_enriched_at timestamp with time zone
 );
 
@@ -60,7 +60,7 @@ create table if not exists public.notes (
 
 -- Function: match_companies (For similarity search)
 create or replace function match_companies (
-  query_embedding vector(768),
+  query_embedding vector(3072),
   match_threshold float,
   match_count int,
   exclude_id uuid

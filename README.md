@@ -229,7 +229,7 @@ Toggle between light and dark themes using the button at the bottom of the sideb
 | **Styling** | Tailwind CSS 4 + shadcn/ui |
 | **Database** | Supabase PostgreSQL + pgvector |
 | **AI Models** | Google Gemini 2.5-flash (structured extraction + scoring) |
-| **Embeddings** | Gemini text-embedding-004 (768 dimensions) |
+| **Embeddings** | Gemini embedding-001 (3072 dimensions) |
 | **Web Scraping** | Jina AI Reader |
 | **Theming** | next-themes (light/dark) |
 | **Notifications** | Sonner toast system |

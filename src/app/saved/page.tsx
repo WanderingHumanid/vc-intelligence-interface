@@ -95,7 +95,7 @@ export default function SavedSearchesPage() {
 
             {/* Manual save form */}
             <Card className="bg-white dark:bg-[#35322D] border-slate-200 dark:border-slate-800 shadow-sm max-w-2xl transition-colors">
-                <CardHeader className="pb-3 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+                <CardHeader className="pb-3 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-transparent">
                     <CardTitle className="text-base text-slate-800 dark:text-slate-200 flex items-center gap-2">
                         <Save className="w-4 h-4 text-slate-500 dark:text-slate-400" /> Create New Shortcut
                     </CardTitle>
@@ -137,7 +137,7 @@ export default function SavedSearchesPage() {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {savedSearches.length === 0 ? (
-                        <div className="col-span-full py-16 flex flex-col items-center justify-center text-center border dark:border-slate-800 rounded-xl border-dashed bg-slate-50 dark:bg-slate-900/50">
+                        <div className="col-span-full py-16 flex flex-col items-center justify-center text-center border dark:border-slate-800 rounded-xl border-dashed bg-slate-50 dark:bg-transparent">
                             <Search className="w-8 h-8 text-slate-300 dark:text-slate-600 mb-3" />
                             <h3 className="text-lg font-medium text-slate-900 dark:text-slate-50">No saved searches</h3>
                             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-sm">Save specific queries to quickly access targeted segments.</p>
@@ -145,7 +145,7 @@ export default function SavedSearchesPage() {
                     ) : (
                         savedSearches.map(search => (
                             <Card key={search.id} className="border-slate-200 dark:border-slate-800 dark:bg-[#35322D] shadow-sm flex flex-col group transition-colors">
-                                <CardHeader className="bg-slate-50/50 dark:bg-slate-900/50 border-b dark:border-slate-800 pb-3 flex flex-row items-start justify-between space-y-0 relative">
+                                <CardHeader className="bg-slate-50/50 dark:bg-transparent border-b dark:border-slate-800 pb-3 flex flex-row items-start justify-between space-y-0 relative">
                                     <div className="flex flex-col gap-1 pr-6">
                                         <CardTitle className="text-lg text-slate-900 dark:text-slate-50 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
                                             {search.name}
