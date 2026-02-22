@@ -243,8 +243,8 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
                 {/* Main Column: AI Enrichment */}
                 <div className="lg:col-span-2 flex flex-col gap-6">
                     <Card className="border-slate-200 shadow-sm overflow-hidden dark:bg-[#35322D] dark:border-slate-800 transition-colors">
-                        <CardHeader className="bg-slate-50/50 border-b pb-4 flex flex-row items-center justify-between space-y-0 relative dark:bg-transparent dark:border-slate-800">
-                            <div>
+                        <CardHeader className="bg-slate-50/50 border-b pb-4 flex flex-col sm:flex-row sm:items-start justify-between gap-3 space-y-0 dark:bg-transparent dark:border-slate-800">
+                            <div className="flex-1 min-w-0">
                                 <CardTitle className="flex items-center gap-2 text-lg text-slate-800 dark:text-slate-50">
                                     <Sparkles className="w-4 h-4 text-teal-600 dark:text-teal-500" /> Precision AI Scout (Live)
                                 </CardTitle>
@@ -253,11 +253,11 @@ export default function CompanyProfilePage(props: ProfilePageProps) {
 
                             {/* Thesis Score Badge */}
                             {status === "success" && company.thesis_score && (
-                                <div className="absolute top-4 right-4 flex flex-col items-end">
-                                    <div className="flex items-center gap-2 bg-emerald-50 text-emerald-700 font-bold px-3 py-1 rounded-full border border-emerald-200 text-sm dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800">
+                                <div className="flex flex-col items-end shrink-0">
+                                    <div className="flex items-center gap-2 bg-emerald-50 text-emerald-700 font-bold px-3 py-1 rounded-full border border-emerald-200 text-sm whitespace-nowrap dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800">
                                         Thesis Match: {company.thesis_score}/100
                                     </div>
-                                    <p className="text-xs text-slate-400 mt-1 max-w-[200px] text-right leading-tight">
+                                    <p className="text-xs text-slate-400 mt-1 max-w-[220px] text-right leading-tight">
                                         {company.thesis_explanation}
                                     </p>
                                 </div>
