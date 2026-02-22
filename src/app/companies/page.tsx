@@ -110,8 +110,8 @@ export default function CompaniesPage() {
     return (
         <div className="flex flex-col gap-8 pb-10">
             <div className="flex flex-col gap-2">
-                <h1 className="text-3xl font-bold tracking-tight text-slate-900">Discover</h1>
-                <p className="text-slate-500">Search and filter active startup targets.</p>
+                <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">Discover</h1>
+                <p className="text-slate-500 dark:text-slate-400">Search and filter active startup targets.</p>
             </div>
 
             {loading ? (
@@ -123,23 +123,23 @@ export default function CompaniesPage() {
                     <div className="flex flex-col gap-4 md:flex-row md:items-center">
                         {/* Search */}
                         <div className="relative flex-1">
-                            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" />
                             <Input
                                 ref={searchInputRef}
                                 placeholder="Search companies, descriptions... (Press '/' to focus)"
-                                className="pl-9 bg-white"
+                                className="pl-9 bg-white dark:bg-slate-950 dark:border-slate-800 dark:text-slate-50 placeholder:dark:text-slate-500"
                                 value={search}
                                 onChange={(e: any) => handleSearch(e.target.value)}
                             />
-                            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-mono border rounded px-1.5 py-0.5 bg-slate-50">/</div>
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 dark:text-slate-500 font-mono border dark:border-slate-700 rounded px-1.5 py-0.5 bg-slate-50 dark:bg-slate-800">/</div>
                         </div>
 
                         {/* Filters */}
                         <div className="flex items-center gap-3">
-                            <div className="flex items-center gap-2 px-3 py-2 border rounded-md bg-white shadow-sm">
-                                <SlidersHorizontal className="w-4 h-4 text-slate-400" />
+                            <div className="flex items-center gap-2 px-3 py-2 border dark:border-slate-800 rounded-md bg-white dark:bg-slate-950 shadow-sm">
+                                <SlidersHorizontal className="w-4 h-4 text-slate-400 dark:text-slate-500" />
                                 <select
-                                    className="text-sm border-none bg-transparent outline-none focus:ring-0 text-slate-700 w-32"
+                                    className="text-sm border-none bg-transparent outline-none focus:ring-0 text-slate-700 dark:text-slate-300 w-32"
                                     value={sectorFilter}
                                     onChange={(e) => handleSector(e.target.value)}
                                 >
@@ -148,10 +148,10 @@ export default function CompaniesPage() {
                                 </select>
                             </div>
 
-                            <div className="flex items-center gap-2 px-3 py-2 border rounded-md bg-white shadow-sm">
-                                <SlidersHorizontal className="w-4 h-4 text-slate-400" />
+                            <div className="flex items-center gap-2 px-3 py-2 border dark:border-slate-800 rounded-md bg-white dark:bg-slate-950 shadow-sm">
+                                <SlidersHorizontal className="w-4 h-4 text-slate-400 dark:text-slate-500" />
                                 <select
-                                    className="text-sm border-none bg-transparent outline-none focus:ring-0 text-slate-700 w-32"
+                                    className="text-sm border-none bg-transparent outline-none focus:ring-0 text-slate-700 dark:text-slate-300 w-32"
                                     value={stageFilter}
                                     onChange={(e) => handleStage(e.target.value)}
                                 >
@@ -163,55 +163,55 @@ export default function CompaniesPage() {
                     </div>
 
                     {/* Table */}
-                    <div className="rounded-xl border bg-white shadow-sm overflow-hidden">
+                    <div className="rounded-xl border dark:border-slate-800 bg-white dark:bg-slate-950 shadow-sm overflow-hidden transition-colors">
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm text-left">
-                                <thead className="bg-slate-50 border-b text-slate-500 font-medium">
+                                <thead className="bg-slate-50 dark:bg-slate-900/50 border-b dark:border-slate-800 text-slate-500 dark:text-slate-400 font-medium">
                                     <tr>
-                                        <th className="px-6 py-4 cursor-pointer hover:bg-slate-100 transition-colors" onClick={() => requestSort('name')}>
+                                        <th className="px-6 py-4 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" onClick={() => requestSort('name')}>
                                             <div className="flex items-center gap-2">Company {getSortIcon('name')}</div>
                                         </th>
-                                        <th className="px-6 py-4 cursor-pointer hover:bg-slate-100 transition-colors" onClick={() => requestSort('sector')}>
+                                        <th className="px-6 py-4 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" onClick={() => requestSort('sector')}>
                                             <div className="flex items-center gap-2">Sector & Stage {getSortIcon('sector')}</div>
                                         </th>
-                                        <th className="px-6 py-4 hidden md:table-cell cursor-pointer hover:bg-slate-100 transition-colors" onClick={() => requestSort('location')}>
+                                        <th className="px-6 py-4 hidden md:table-cell cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" onClick={() => requestSort('location')}>
                                             <div className="flex items-center gap-2">Location {getSortIcon('location')}</div>
                                         </th>
                                         <th className="px-6 py-4">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-slate-100">
+                                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                                     {paginatedData.length === 0 ? (
                                         <tr>
-                                            <td colSpan={4} className="px-6 py-10 text-center text-slate-500">
+                                            <td colSpan={4} className="px-6 py-10 text-center text-slate-500 dark:text-slate-400">
                                                 No companies matched your criteria.
                                             </td>
                                         </tr>
                                     ) : (
                                         paginatedData.map((co) => (
-                                            <tr key={co.id} className="hover:bg-slate-50/70 transition-colors group">
+                                            <tr key={co.id} className="hover:bg-slate-50/70 dark:hover:bg-slate-900/50 transition-colors group">
                                                 <td className="px-6 py-4">
                                                     <div className="flex flex-col">
-                                                        <span className="font-semibold text-slate-900 group-hover:text-blue-600 transition-colors">
+                                                        <span className="font-semibold text-slate-900 dark:text-slate-50 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                                                             {co.name}
                                                         </span>
-                                                        <span className="text-slate-500 line-clamp-1 text-xs mt-1 max-w-[300px]">
+                                                        <span className="text-slate-500 dark:text-slate-400 line-clamp-1 text-xs mt-1 max-w-[300px]">
                                                             {co.description}
                                                         </span>
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-2">
-                                                        <Badge variant="secondary" className="bg-slate-100 text-slate-700 hover:bg-slate-200">{co.sector}</Badge>
-                                                        <Badge variant="outline" className="text-slate-500">{co.stage}</Badge>
+                                                        <Badge variant="secondary" className="bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">{co.sector}</Badge>
+                                                        <Badge variant="outline" className="text-slate-500 dark:text-slate-400 dark:border-slate-700">{co.stage}</Badge>
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4 text-slate-500 hidden md:table-cell">
+                                                <td className="px-6 py-4 text-slate-500 dark:text-slate-400 hidden md:table-cell">
                                                     {co.location}
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     <Link href={`/companies/${co.id}`}>
-                                                        <Button variant="ghost" size="sm" className="font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+                                                        <Button variant="ghost" size="sm" className="font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/50">
                                                             View profile &rarr;
                                                         </Button>
                                                     </Link>
@@ -225,9 +225,9 @@ export default function CompaniesPage() {
 
                         {/* Pagination Footer */}
                         {totalPages > 0 && (
-                            <div className="flex items-center justify-between px-6 py-3 border-t bg-slate-50 text-sm text-slate-500">
+                            <div className="flex items-center justify-between px-6 py-3 border-t dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 text-sm text-slate-500 dark:text-slate-400 transition-colors">
                                 <div>
-                                    Showing <span className="font-medium text-slate-900">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium text-slate-900">{Math.min(currentPage * itemsPerPage, filteredData.length)}</span> of <span className="font-medium text-slate-900">{filteredData.length}</span> results
+                                    Showing <span className="font-medium text-slate-900 dark:text-slate-50">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium text-slate-900 dark:text-slate-50">{Math.min(currentPage * itemsPerPage, filteredData.length)}</span> of <span className="font-medium text-slate-900 dark:text-slate-50">{filteredData.length}</span> results
                                 </div>
                                 <div className="flex gap-2">
                                     <Button
@@ -235,7 +235,7 @@ export default function CompaniesPage() {
                                         size="sm"
                                         onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                                         disabled={currentPage === 1}
-                                        className="h-8 w-8 p-0"
+                                        className="h-8 w-8 p-0 dark:border-slate-700"
                                     >
                                         <ChevronLeft className="w-4 h-4" />
                                     </Button>
@@ -244,7 +244,7 @@ export default function CompaniesPage() {
                                         size="sm"
                                         onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                                         disabled={currentPage === totalPages}
-                                        className="h-8 w-8 p-0"
+                                        className="h-8 w-8 p-0 dark:border-slate-700"
                                     >
                                         <ChevronRight className="w-4 h-4" />
                                     </Button>

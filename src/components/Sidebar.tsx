@@ -27,12 +27,12 @@ export function Sidebar() {
     ];
 
     return (
-        <div className="w-64 bg-slate-50 border-r border-slate-200 h-screen fixed top-0 left-0 flex flex-col items-start px-4 py-6 z-10">
+        <div className="w-64 bg-slate-50 dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 h-screen fixed top-0 left-0 flex flex-col items-start px-4 py-6 z-10 transition-colors">
             <div className="flex items-center gap-2 mb-10 w-full px-2">
-                <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white">
+                <div className="w-8 h-8 rounded-lg bg-blue-600 dark:bg-blue-500 flex items-center justify-center text-white shrink-0">
                     <LayoutDashboard className="w-5 h-5" />
                 </div>
-                <span className="font-semibold text-lg text-slate-900 tracking-tight">Intelligence</span>
+                <span className="font-semibold text-lg text-slate-900 dark:text-slate-50 tracking-tight">Intelligence</span>
             </div>
 
             <div className="w-full px-2 mb-6 cursor-pointer">
@@ -56,17 +56,17 @@ export function Sidebar() {
                             key={item.href}
                             href={item.href}
                             className={`flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors text-sm font-medium ${isActive
-                                ? "bg-blue-50 text-blue-700"
-                                : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                                ? "bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-400"
+                                : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/50 dark:hover:text-slate-50"
                                 }`}
                         >
-                            <item.icon className={`w-4 h-4 ${isActive ? "text-blue-600" : "text-slate-400"}`} />
+                            <item.icon className={`w-4 h-4 ${isActive ? "text-blue-600 dark:text-blue-400" : "text-slate-400 dark:text-slate-500"}`} />
                             {item.name}
                         </Link>
                     );
                 })}
             </nav>
-            <div className="mt-auto w-full pt-4 border-t border-slate-200">
+            <div className="mt-auto w-full pt-4 border-t border-slate-200 dark:border-slate-800 transition-colors">
                 <ThemeToggle />
             </div>
         </div>

@@ -177,21 +177,22 @@ export default function ListsPage() {
     return (
         <div className="flex flex-col gap-8 pb-10">
             <div className="flex flex-col gap-2">
-                <h1 className="text-3xl font-bold tracking-tight text-slate-900">My Lists</h1>
-                <p className="text-slate-500">Manage your saved collections and export for outreach or diligence. Synced with Supabase.</p>
+                <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">My Lists</h1>
+                <p className="text-slate-500 dark:text-slate-400">Manage your saved collections and export for outreach or diligence. Synced with Supabase.</p>
             </div>
 
             {/* Create List Form */}
-            <Card className="bg-white border-slate-200 shadow-sm max-w-lg">
+            <Card className="bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 shadow-sm max-w-lg transition-colors">
                 <CardContent className="pt-6">
                     <form onSubmit={handleCreateList} className="flex items-end gap-3">
                         <div className="flex-1 space-y-1">
-                            <label htmlFor="listName" className="text-sm font-medium text-slate-700">New List Name</label>
+                            <label htmlFor="listName" className="text-sm font-medium text-slate-700 dark:text-slate-300">New List Name</label>
                             <Input
                                 id="listName"
                                 placeholder="e.g. Q3 Fintech Targets"
                                 value={newListName}
                                 onChange={(e: any) => setNewListName(e.target.value)}
+                                className="dark:bg-slate-900 dark:border-slate-800 dark:text-slate-50 placeholder:dark:text-slate-500"
                             />
                         </div>
                         <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white">
@@ -203,24 +204,24 @@ export default function ListsPage() {
 
             {/* Lists Display */}
             {loading ? (
-                <div className="py-20 text-center text-slate-500 animate-pulse">Loading lists...</div>
+                <div className="py-20 text-center text-slate-500 dark:text-slate-400 animate-pulse">Loading lists...</div>
             ) : (
                 <div className="flex flex-col gap-6">
                     {lists.length === 0 ? (
-                        <div className="py-16 flex flex-col items-center justify-center text-center border rounded-xl border-dashed bg-slate-50">
-                            <Bookmark className="w-8 h-8 text-slate-300 mb-3" />
-                            <h3 className="text-lg font-medium text-slate-900">No lists yet</h3>
-                            <p className="text-sm text-slate-500 mt-1 max-w-sm">Create a list above, then add companies to it from their profile pages.</p>
+                        <div className="py-16 flex flex-col items-center justify-center text-center border dark:border-slate-800 rounded-xl border-dashed bg-slate-50 dark:bg-slate-900/50">
+                            <Bookmark className="w-8 h-8 text-slate-300 dark:text-slate-600 mb-3" />
+                            <h3 className="text-lg font-medium text-slate-900 dark:text-slate-50">No lists yet</h3>
+                            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-sm">Create a list above, then add companies to it from their profile pages.</p>
                         </div>
                     ) : (
                         lists.map(list => {
                             return (
-                                <Card key={list.id} className="border-slate-200 shadow-sm overflow-hidden">
-                                    <CardHeader className="bg-slate-50/50 border-b pb-4 flex flex-row items-center justify-between space-y-0">
+                                <Card key={list.id} className="border-slate-200 dark:border-slate-800 dark:bg-slate-950 shadow-sm overflow-hidden transition-colors">
+                                    <CardHeader className="bg-slate-50/50 dark:bg-slate-900/50 border-b dark:border-slate-800 pb-4 flex flex-row items-center justify-between space-y-0">
                                         <div className="flex items-center gap-3">
-                                            <Bookmark className="w-5 h-5 text-blue-600" />
-                                            <CardTitle className="text-lg text-slate-900">{list.name}</CardTitle>
-                                            <Badge variant="secondary" className="ml-2 bg-white text-slate-500 border shadow-sm font-normal">
+                                            <Bookmark className="w-5 h-5 text-blue-600 dark:text-blue-500" />
+                                            <CardTitle className="text-lg text-slate-900 dark:text-slate-50">{list.name}</CardTitle>
+                                            <Badge variant="secondary" className="ml-2 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border dark:border-slate-700 shadow-sm font-normal">
                                                 {list.companies.length} {list.companies.length === 1 ? 'company' : 'companies'}
                                             </Badge>
                                         </div>
@@ -230,7 +231,7 @@ export default function ListsPage() {
                                                 size="sm"
                                                 onClick={() => handleExportCSV(list)}
                                                 disabled={list.companies.length === 0}
-                                                className="text-slate-600 h-8 font-medium"
+                                                className="text-slate-600 dark:text-slate-300 dark:border-slate-700 h-8 font-medium"
                                             >
                                                 CSV
                                             </Button>
@@ -239,7 +240,7 @@ export default function ListsPage() {
                                                 size="sm"
                                                 onClick={() => handleExportJSON(list)}
                                                 disabled={list.companies.length === 0}
-                                                className="text-slate-600 h-8 font-medium"
+                                                className="text-slate-600 dark:text-slate-300 dark:border-slate-700 h-8 font-medium"
                                             >
                                                 JSON
                                             </Button>
@@ -248,7 +249,7 @@ export default function ListsPage() {
                                                 size="sm"
                                                 onClick={() => handleClearList(list.id, list.name)}
                                                 disabled={list.companies.length === 0}
-                                                className="text-orange-600 border-orange-200 hover:bg-orange-50 hover:text-orange-700 h-8 font-medium"
+                                                className="text-orange-600 border-orange-200 hover:bg-orange-50 hover:text-orange-700 dark:text-orange-400 dark:border-orange-800/50 dark:hover:bg-orange-950/40 dark:hover:border-orange-800 dark:hover:text-orange-300 h-8 font-medium transition-colors"
                                                 title="Clear all companies from list"
                                             >
                                                 Clear
@@ -257,7 +258,7 @@ export default function ListsPage() {
                                                 variant="ghost"
                                                 size="sm"
                                                 onClick={() => handleDeleteList(list.id, list.name)}
-                                                className="text-red-600 hover:text-red-700 hover:bg-red-50 h-8"
+                                                className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/40 dark:hover:text-red-300 h-8 transition-colors"
                                             >
                                                 <Trash2 className="w-4 h-4" />
                                             </Button>
@@ -265,29 +266,29 @@ export default function ListsPage() {
                                     </CardHeader>
                                     <CardContent className="p-0">
                                         {list.companies.length === 0 ? (
-                                            <div className="py-8 text-center text-sm text-slate-500">
+                                            <div className="py-8 text-center text-sm text-slate-500 dark:text-slate-400">
                                                 This list is empty. Add companies from their profile dashboards.
                                             </div>
                                         ) : (
-                                            <ul className="divide-y divide-slate-100">
+                                            <ul className="divide-y divide-slate-100 dark:divide-slate-800">
                                                 {list.companies.map(company => (
-                                                    <li key={company.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 hover:bg-slate-50/50 transition-colors gap-4">
+                                                    <li key={company.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 hover:bg-slate-50/50 dark:hover:bg-slate-900/50 transition-colors gap-4">
                                                         <div className="flex items-start sm:items-center gap-3">
-                                                            <div className="w-8 h-8 rounded bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
+                                                            <div className="w-8 h-8 rounded bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
                                                                 <Building2 className="w-4 h-4" />
                                                             </div>
                                                             <div className="flex flex-col">
-                                                                <Link href={`/companies/${company.id}`} className="font-semibold text-sm text-slate-900 hover:text-blue-600 flex items-center gap-1">
-                                                                    {company.name} <ExternalLink className="w-3 h-3 text-slate-400" />
+                                                                <Link href={`/companies/${company.id}`} className="font-semibold text-sm text-slate-900 dark:text-slate-50 hover:text-blue-600 dark:hover:text-blue-400 flex items-center gap-1">
+                                                                    {company.name} <ExternalLink className="w-3 h-3 text-slate-400 dark:text-slate-500" />
                                                                 </Link>
-                                                                <span className="text-xs text-slate-500 mt-0.5">{company.sector} · {company.stage}</span>
+                                                                <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{company.sector} · {company.stage}</span>
                                                             </div>
                                                         </div>
                                                         <Button
                                                             variant="ghost"
                                                             size="sm"
                                                             onClick={() => handleRemoveCompany(list.id, company.id, company.name)}
-                                                            className="text-slate-400 hover:text-red-600 hover:bg-red-50 h-8 font-normal self-start sm:self-center"
+                                                            className="text-slate-400 dark:text-slate-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 dark:hover:text-red-400 h-8 font-normal self-start sm:self-center transition-colors"
                                                         >
                                                             Remove
                                                         </Button>
