@@ -193,7 +193,7 @@ export default function ListsPage() {
                                 className="dark:bg-slate-900 dark:border-slate-800 dark:text-slate-50 placeholder:dark:text-slate-500"
                             />
                         </div>
-                        <Button type="submit" className="bg-teal-600 hover:bg-teal-700 text-white">
+                        <Button type="submit" className="bg-teal-600 hover:bg-teal-700 text-white justify-center items-center">
                             <Plus className="w-4 h-4 mr-2" /> Create
                         </Button>
                     </form>

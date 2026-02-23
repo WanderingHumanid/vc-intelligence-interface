@@ -1,22 +1,38 @@
 "use client";
 
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Building2, Bookmark, Save, LayoutDashboard, Search as SearchIcon } from "lucide-react";
+import { Building2, Bookmark, Save, LayoutDashboard, Search as SearchIcon, Menu, X } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function Sidebar() {
     const pathname = usePathname();
     const router = useRouter();
     const [globalSearch, setGlobalSearch] = useState("");
+    const [mobileOpen, setMobileOpen] = useState(false);
+
+    // Close mobile sidebar on route change
+    useEffect(() => {
+        setMobileOpen(false);
+    }, [pathname]);
+
+    // Prevent scroll when mobile sidebar is open
+    useEffect(() => {
+        if (mobileOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+        return () => { document.body.style.overflow = ""; };
+    }, [mobileOpen]);
 
     const handleGlobalSearch = (e: React.FormEvent) => {
         e.preventDefault();
         if (globalSearch.trim()) {
             router.push(`/companies?q=${encodeURIComponent(globalSearch.trim())}`);
-            setGlobalSearch(""); // clear after search
+            setGlobalSearch("");
+            setMobileOpen(false);
         }
     };
 
@@ -26,8 +42,8 @@ export function Sidebar() {
         { name: "Saved Searches", href: "/saved", icon: Save },
     ];
 
-    return (
-        <div className="w-64 bg-slate-50 dark:bg-[#262624] border-r border-slate-200 dark:border-slate-800 h-screen fixed top-0 left-0 flex flex-col items-start px-4 py-6 z-10 transition-colors">
+    const sidebarContent = (
+        <>
             <div className="flex items-center gap-2 mb-10 w-full px-2">
                 <div className="w-8 h-8 rounded-lg bg-teal-600 dark:bg-teal-500 flex items-center justify-center text-white shrink-0">
                     <LayoutDashboard className="w-5 h-5" />
@@ -69,6 +85,55 @@ export function Sidebar() {
             <div className="mt-auto w-full pt-4 border-t border-slate-200 dark:border-slate-800 transition-colors">
                 <ThemeToggle />
             </div>
-        </div>
+        </>
+    );
+
+    return (
+        <>
+            {/* Mobile top bar — part of layout flow, not floating */}
+            <div className="lg:hidden sticky top-0 z-40 flex items-center gap-3 px-4 py-3 bg-slate-50/90 dark:bg-[#262624]/90 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800">
+                <button
+                    onClick={() => setMobileOpen(true)}
+                    className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700"
+                    aria-label="Open menu"
+                >
+                    <Menu className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+                </button>
+                <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-md bg-teal-600 dark:bg-teal-500 flex items-center justify-center text-white">
+                        <LayoutDashboard className="w-3.5 h-3.5" />
+                    </div>
+                    <span className="font-semibold text-sm text-slate-900 dark:text-slate-50 tracking-tight">Intelligence</span>
+                </div>
+            </div>
+
+            {/* Mobile overlay */}
+            {mobileOpen && (
+                <div
+                    className="lg:hidden fixed inset-0 bg-black/50 z-40"
+                    onClick={() => setMobileOpen(false)}
+                />
+            )}
+
+            {/* Mobile sidebar (slide-in drawer) */}
+            <div
+                className={`lg:hidden fixed top-0 left-0 h-screen w-64 bg-slate-50 dark:bg-[#262624] border-r border-slate-200 dark:border-slate-800 flex flex-col items-start px-4 py-6 z-50 transition-transform duration-300 ease-in-out ${mobileOpen ? "translate-x-0" : "-translate-x-full"
+                    }`}
+            >
+                <button
+                    onClick={() => setMobileOpen(false)}
+                    className="absolute top-4 right-4 p-1.5 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
+                    aria-label="Close menu"
+                >
+                    <X className="w-5 h-5 text-slate-500 dark:text-slate-400" />
+                </button>
+                {sidebarContent}
+            </div>
+
+            {/* Desktop sidebar (always visible) */}
+            <div className="hidden lg:flex w-64 bg-slate-50 dark:bg-[#262624] border-r border-slate-200 dark:border-slate-800 h-screen fixed top-0 left-0 flex-col items-start px-4 py-6 z-10 transition-colors">
+                {sidebarContent}
+            </div>
+        </>
     );
 }

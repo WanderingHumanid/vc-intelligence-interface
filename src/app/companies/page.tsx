@@ -249,7 +249,7 @@ export default function CompaniesPage() {
                                 <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" />
                                 <Input
                                     ref={searchInputRef}
-                                    placeholder="Search companies, descriptions... (Press '/' to focus)"
+                                    placeholder="Search companies..."
                                     className="pl-9 bg-white dark:bg-[#35322D] dark:border-slate-800 dark:text-slate-50 placeholder:dark:text-slate-500"
                                     value={search}
                                     onChange={(e: any) => handleSearch(e.target.value)}
@@ -362,16 +362,16 @@ export default function CompaniesPage() {
                             <table className="w-full text-sm text-left">
                                 <thead className="bg-slate-50 dark:bg-transparent border-b dark:border-slate-800 text-slate-500 dark:text-slate-400 font-medium">
                                     <tr>
-                                        <th className="px-6 py-4 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" onClick={() => requestSort('name')}>
+                                        <th className="px-3 py-3 sm:px-6 sm:py-4 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" onClick={() => requestSort('name')}>
                                             <div className="flex items-center gap-2">Company {getSortIcon('name')}</div>
                                         </th>
-                                        <th className="px-6 py-4 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" onClick={() => requestSort('sector')}>
+                                        <th className="px-3 py-3 sm:px-6 sm:py-4 hidden sm:table-cell cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" onClick={() => requestSort('sector')}>
                                             <div className="flex items-center gap-2">Sector & Stage {getSortIcon('sector')}</div>
                                         </th>
-                                        <th className="px-6 py-4 hidden md:table-cell cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" onClick={() => requestSort('location')}>
+                                        <th className="px-3 py-3 sm:px-6 sm:py-4 hidden lg:table-cell cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" onClick={() => requestSort('location')}>
                                             <div className="flex items-center gap-2">Location {getSortIcon('location')}</div>
                                         </th>
-                                        <th className="px-6 py-4">Action</th>
+                                        <th className="px-3 py-3 sm:px-6 sm:py-4">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -384,29 +384,29 @@ export default function CompaniesPage() {
                                     ) : (
                                         paginatedData.map((co) => (
                                             <tr key={co.id} className="hover:bg-slate-50/70 dark:hover:bg-slate-900/50 transition-colors group">
-                                                <td className="px-6 py-4">
+                                                <td className="px-3 py-3 sm:px-6 sm:py-4">
                                                     <div className="flex flex-col">
-                                                        <span className="font-semibold text-slate-900 dark:text-slate-50 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                                                        <span className="font-semibold text-slate-900 dark:text-slate-50 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors text-sm sm:text-base">
                                                             {co.name}
                                                         </span>
-                                                        <span className="text-slate-500 dark:text-slate-400 line-clamp-1 text-xs mt-1 max-w-[300px]">
+                                                        <span className="text-slate-500 dark:text-slate-400 line-clamp-1 text-xs mt-1 max-w-[200px] sm:max-w-[300px]">
                                                             {co.description}
                                                         </span>
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4">
-                                                    <div className="flex items-center gap-2">
+                                                <td className="px-3 py-3 sm:px-6 sm:py-4 hidden sm:table-cell">
+                                                    <div className="flex items-center gap-2 flex-wrap">
                                                         <Badge variant="secondary" className="bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">{co.sector}</Badge>
                                                         <Badge variant="outline" className="text-slate-500 dark:text-slate-400 dark:border-slate-700">{co.stage}</Badge>
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4 text-slate-500 dark:text-slate-400 hidden md:table-cell">
+                                                <td className="px-3 py-3 sm:px-6 sm:py-4 text-slate-500 dark:text-slate-400 hidden lg:table-cell">
                                                     {co.location}
                                                 </td>
-                                                <td className="px-6 py-4">
+                                                <td className="px-3 py-3 sm:px-6 sm:py-4">
                                                     <Link href={`/companies/${co.id}`}>
-                                                        <Button variant="ghost" size="sm" className="font-medium text-teal-600 hover:text-teal-700 hover:bg-teal-50 dark:text-teal-400 dark:hover:bg-teal-900/50">
-                                                            View profile &rarr;
+                                                        <Button variant="ghost" size="sm" className="font-medium text-teal-600 hover:text-teal-700 hover:bg-teal-50 dark:text-teal-400 dark:hover:bg-teal-900/50 text-xs sm:text-sm">
+                                                            View &rarr;
                                                         </Button>
                                                     </Link>
                                                 </td>
@@ -419,9 +419,9 @@ export default function CompaniesPage() {
 
                         {/* Pagination Footer */}
                         {totalPages > 0 && (
-                            <div className="flex items-center justify-between px-6 py-3 border-t dark:border-slate-800 bg-slate-50 dark:bg-transparent text-sm text-slate-500 dark:text-slate-400 transition-colors">
-                                <div>
-                                    Showing <span className="font-medium text-slate-900 dark:text-slate-50">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium text-slate-900 dark:text-slate-50">{Math.min(currentPage * itemsPerPage, filteredData.length)}</span> of <span className="font-medium text-slate-900 dark:text-slate-50">{filteredData.length}</span> results
+                            <div className="flex flex-col sm:flex-row items-center justify-between gap-2 px-3 sm:px-6 py-3 border-t dark:border-slate-800 bg-slate-50 dark:bg-transparent text-sm text-slate-500 dark:text-slate-400 transition-colors">
+                                <div className="text-xs sm:text-sm">
+                                    <span className="font-medium text-slate-900 dark:text-slate-50">{(currentPage - 1) * itemsPerPage + 1}</span>–<span className="font-medium text-slate-900 dark:text-slate-50">{Math.min(currentPage * itemsPerPage, filteredData.length)}</span> of <span className="font-medium text-slate-900 dark:text-slate-50">{filteredData.length}</span>
                                 </div>
                                 <div className="flex gap-2">
                                     <Button
